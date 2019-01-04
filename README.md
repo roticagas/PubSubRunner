@@ -28,6 +28,48 @@ Python Boilerplate for Google Cloud PubSub running task in python
 4. add in requirements.txt
     - -e git+https://github.com/roticagas/PubSubRunner.git#egg=PubSubRunner
 
+## Config 
+By using Environment variable 
+
+in testing you can directly set with 
+
+    os.environ['CLOUD_PUBSUB_CHECK'] = 'false'
+
+###### PORT (8080)
+port of Runner, This is standalone application.
+
+###### CLOUD_PROJECT () 
+*NEED TO BE SET*
+ 
+google cloud project name
+
+###### CLOUD_PUBSUB_SUBSCRIBE_TOPIC (from) 
+topic name of subscription
+
+###### CLOUD_PUBSUB_SUBSCRIBE_SUBSCRIPTION (from-subscription)
+subscription name
+
+###### CLOUD_PUBSUB_PUBLISH_TOPIC (to) 
+*OPTIONAL*
+
+topic name to be publish after task succeed
+###### CLOUD_PUBSUB_DEAD_LETTER_TOPIC (dead-letter) 
+*OPTIONAL*
+
+topic name to be publish if message is not in json format 
+
+###### CLOUD_PUBSUB_MAX_LEASE_DURATION (7200)
+seconds for task to complete before pubsub not acknowledge response
+
+###### CLOUD_PUBSUB_MAX_DEADLINE (600)
+seconds for deadline 
+
+###### CLOUD_PUBSUB_CHECK (true)
+if true: check topic and subscription name and create it if not exist
+
+###### CLOUD_PUBSUB_ACK (true)
+if true: ack message after publish message or dead letter message
+
 ## Test
 *TBD using pycharm*
 
