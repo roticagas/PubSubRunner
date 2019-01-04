@@ -4,8 +4,8 @@ import logging
 import socketserver
 from json import JSONDecodeError
 
-from cloud_util import CloudUtil
-from runner_config import RunnerConfig
+from PubSubRunner.cloud_util import CloudUtil
+from PubSubRunner.runner_config import RunnerConfig
 
 
 class RunnerApplication:

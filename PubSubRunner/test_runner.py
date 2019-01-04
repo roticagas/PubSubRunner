@@ -2,8 +2,8 @@ import os
 import unittest
 from json import JSONDecodeError
 
-from runner_application import RunnerApplication
-from runner_config import RunnerConfig
+from PubSubRunner.runner_application import RunnerApplication
+from PubSubRunner.runner_config import RunnerConfig
 
 
 class TestRunnerApplication(unittest.TestCase):
