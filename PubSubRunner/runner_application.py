@@ -44,10 +44,12 @@ class RunnerApplication:
                 CloudUtil.create_topic(cloud_project, subscribe_topic)
             if not CloudUtil.verify_subscription(cloud_project, subscribe_subscription):
                 CloudUtil.create_subscription(cloud_project, subscribe_topic, subscribe_subscription, ack_deadline)
-            if not CloudUtil.verify_topic(cloud_project, publish_topic):
-                CloudUtil.create_topic(cloud_project, publish_topic)
-            if not CloudUtil.verify_topic(cloud_project, dead_letter_topic):
-                CloudUtil.create_topic(cloud_project, dead_letter_topic)
+            if publish_topic != '':  # optional topic
+                if not CloudUtil.verify_topic(cloud_project, publish_topic):
+                    CloudUtil.create_topic(cloud_project, publish_topic)
+            if dead_letter_topic != '':  # optional topic
+                if not CloudUtil.verify_topic(cloud_project, dead_letter_topic):
+                    CloudUtil.create_topic(cloud_project, dead_letter_topic)
 
     def do_task(self, data):
         """
