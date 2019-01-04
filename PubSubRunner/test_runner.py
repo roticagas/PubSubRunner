@@ -1,3 +1,4 @@
+import json
 import os
 import unittest
 from json import JSONDecodeError
@@ -32,7 +33,7 @@ class TestRunnerApplication(unittest.TestCase):
         os.environ['CLOUD_PUBSUB_CHECK'] = 'false'
         os.environ['CLOUD_PROJECT'] = 'project'
         m = RunnerApplication(self._empty_task)
-        e = m.do_task(str(u'{"hello": "world"}'))
+        e = json.loads(m.do_task(str(u'{"hello": "world"}')))
         self.assertEqual(e['hello'], 'world')
 
     def test_main_app_decode_error(self):

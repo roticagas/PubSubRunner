@@ -50,7 +50,13 @@ class RunnerApplication:
                 CloudUtil.create_topic(cloud_project, dead_letter_topic)
 
     def do_task(self, data):
-        return self.task(json.loads(data))
+        """
+        wrapper for call task
+        :param data: raw message from pubsub expect json format
+        :return: json of return value or data if return value is None
+        """
+        ret = self.task(json.loads(data))
+        return json.dumps(ret or data)
 
     def subscribe_processing(self, message):
         try:
