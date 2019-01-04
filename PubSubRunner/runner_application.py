@@ -13,15 +13,26 @@ class RunnerApplication:
     def __init__(self, task):
         self.task = task
         self.config = RunnerConfig()
-        self.create_pubsub()
+        self.verify_config()
+        self.check_pubsub()
+
+    def verify_config(self):
+        """
+        Verify config
+        """
         assert self.config.cloud_project != '', 'Please set cloud project'
         assert self.config.cloud_pubsub_subscribe_subscription != '', 'Please set cloud pubsub subscription'
-        assert self.config.cloud_pubsub_dead_letter_topic != '', 'Please set cloud pubsub topic for dead letter'
         if self.config.cloud_pubsub_publish_topic == '':
             logging.warning('publish topic are not set, check your config carefully')
+        if self.config.cloud_pubsub_dead_letter_topic == '':
+            logging.warning('dead letter topic are not set, check your config carefully')
+            assert not self.config.cloud_pubsub_ack, 'dead letter should not be sent if message not ack'
 
-    def create_pubsub(self):
-        if self.config.cloud_check:
+    def check_pubsub(self):
+        """
+        Check pubsub if not exist: create them
+        """
+        if self.config.cloud_pubsub_check:
             cloud_project = self.config.cloud_project
             subscribe_topic = self.config.cloud_pubsub_subscribe_topic
             subscribe_subscription = self.config.cloud_pubsub_subscribe_subscription
@@ -47,8 +58,9 @@ class RunnerApplication:
             if self.config.cloud_pubsub_publish_topic != '':
                 CloudUtil.publish_data(self.config.cloud_project,
                                        self.config.cloud_pubsub_publish_topic,
-                                       json.dumps(ret))
-            message.ack()
+                                       ret)
+            if self.config.cloud_pubsub_ack:
+                message.ack()
         except JSONDecodeError as e:
             # NOTE: if payload not in json format: send to dead letter topic
             logging.error(str(e))
@@ -58,7 +70,8 @@ class RunnerApplication:
                                           message,
                                           e,
                                           'Invalid json format')
-            message.ack()
+            if self.config.cloud_pubsub_ack:
+                message.ack()
         except Exception as e:
             logging.error(str(e))
             message.nack()
