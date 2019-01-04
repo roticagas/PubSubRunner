@@ -20,10 +20,13 @@ Python Boilerplate for Google Cloud PubSub running task in python
 3. set ENV
 
     - GOOGLE_APPLICATION_CREDENTIALS=services.json
+    - CLOUD_PROJECT=your-project
+    - CLOUD_PUBSUB_SUBSCRIBE_TOPIC=subscribe's topic
+    - CLOUD_PUBSUB_SUBSCRIBE_SUBSCRIPTION=subscription of subscribe's topic
+    - CLOUD_PUBSUB_PUBLISH_TOPIC=publish's topic
 
-4. install requirements
-
-    - pip3 install -r /requirements.txt
+4. add in requirements.txt
+    - -e git+https://github.com/roticagas/PubSubRunner.git#egg=PubSubRunner
 
 ## Test
 *TBD using pycharm*
@@ -88,7 +91,7 @@ add messenger_main.py with this code
         os.environ['CLOUD_PUBSUB_ACK_DEADLINE'] = '30'  # play with this value
     
     
-        def job():
+        def job():  # this function is run after subscribe topic for easier testing.  
             config = RunnerConfig()
             CloudUtil.publish_data(config.cloud_project, config.cloud_pubsub_subscribe_topic, json.dumps({'delay': '1'}))
             CloudUtil.publish_data(config.cloud_project, config.cloud_pubsub_subscribe_topic, json.dumps({'delay': '15'}))
