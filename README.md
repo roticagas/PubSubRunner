@@ -151,3 +151,17 @@ run
 or
      
     python3 messenger_main.py 
+
+## Debug logging
+set logging level
+
+    import logging
+    logging.basicConfig(level=logging.DEBUG)
+
+it will shown like
+
+    DEBUG:root:HINT: gcloud pubsub topics list
+    DEBUG:google.auth.transport.requests:Making request: POST https://oauth2.googleapis.com/token
+    DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): oauth2.googleapis.com:443
+    DEBUG:urllib3.connectionpool:https://oauth2.googleapis.com:443 "POST /token HTTP/1.1" 200 None
+    
