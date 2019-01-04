@@ -3,9 +3,10 @@ Python Boilerplate for Google Cloud PubSub running task in python
 
 ## Table of Contents
 - [Setup](#setup)
+- [Config](#config)
 - [Test](#test)
 - [Run](#run)
-
+- [Debug](#debug)
 
 ## Setup
 1. create service account in google cloud project
@@ -152,7 +153,7 @@ or
      
     python3 messenger_main.py 
 
-## Debug logging
+## Debug
 set logging level
 
     import logging
