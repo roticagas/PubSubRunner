@@ -84,10 +84,11 @@ class RunnerApplication:
             logging.error(str(e))
             message.nack()
 
-    def run(self, job=None):
+    def run(self, job=None, internal_server=True):
         """
         subscribe message from pubsub and may do a job before httpd.serve_forever()
         :param job: function to run before run httpd.serve_forever()
+        :param internal_server: True to use internal TCPServer run after subscribe message
         """
         CloudUtil.subscribe_message(self.config.cloud_project,
                                     self.config.cloud_pubsub_subscribe_subscription,
@@ -95,6 +96,7 @@ class RunnerApplication:
                                     self.config.cloud_pubsub_max_lease_duration)
         if job is not None and callable(job):
             job()
-        with socketserver.TCPServer(("", self.config.port), http.server.SimpleHTTPRequestHandler) as httpd:
-            logging.info("serving at port {}".format(self.config.port))
-            httpd.serve_forever()
+        if internal_server:
+            with socketserver.TCPServer(("", self.config.port), http.server.SimpleHTTPRequestHandler) as httpd:
+                logging.info("serving at port {}".format(self.config.port))
+                httpd.serve_forever()
