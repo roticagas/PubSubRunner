@@ -26,7 +26,7 @@ class RunnerApplication:
             logging.warning('publish topic are not set, check your config carefully')
         if self.config.cloud_pubsub_dead_letter_topic == '':
             logging.warning('dead letter topic are not set, check your config carefully')
-            assert not self.config.cloud_pubsub_ack, 'dead letter should not be sent if message not ack'
+            assert not self.config.cloud_pubsub_dead_letter_ack, 'dead letter should not be sent if message not ack'
 
     def check_pubsub(self):
         """
@@ -72,14 +72,15 @@ class RunnerApplication:
         except JSONDecodeError as e:
             # NOTE: if payload not in json format: send to dead letter topic
             logging.error(str(e))
-            CloudUtil.publish_dead_letter(self.config.cloud_project,
-                                          self.config.cloud_pubsub_dead_letter_topic,
-                                          self.config.cloud_pubsub_publish_topic,
-                                          message,
-                                          e,
-                                          'Invalid json format')
-            if self.config.cloud_pubsub_ack:
-                message.ack()
+            if self.config.cloud_pubsub_dead_letter_topic != '':
+                CloudUtil.publish_dead_letter(self.config.cloud_project,
+                                              self.config.cloud_pubsub_dead_letter_topic,
+                                              self.config.cloud_pubsub_publish_topic,
+                                              message,
+                                              e,
+                                              'Invalid json format')
+                if self.config.cloud_pubsub_dead_letter_ack:
+                    message.ack()
         except Exception as e:
             logging.error(str(e))
             message.nack()

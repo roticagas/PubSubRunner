@@ -13,6 +13,7 @@ class RunnerConfig:
         ('CLOUD_PUBSUB_MAX_DEADLINE', '600'),
         ('CLOUD_PUBSUB_CHECK', 'true'),
         ('CLOUD_PUBSUB_ACK', 'true'),
+        ('CLOUD_PUBSUB_DEAD_LETTER_ACK', 'false'),
     ]
 
     def __init__(self):
@@ -27,3 +28,4 @@ class RunnerConfig:
         self.cloud_pubsub_ack_deadline = int(env[7])
         self.cloud_pubsub_check = env[8] in ['True', 'true', 'TRUE']
         self.cloud_pubsub_ack = env[9] in ['True', 'true', 'TRUE']
+        self.cloud_pubsub_dead_letter_ack = env[10] in ['True', 'true', 'TRUE']
