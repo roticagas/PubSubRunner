@@ -120,6 +120,18 @@ class CloudUtil:
         return False
 
     @staticmethod
+    def list_topic(project_id):
+        """
+        :param project_id:
+        :return: list of topic
+        """
+        logging.debug('HINT: gcloud pubsub topics list')
+        publisher = pubsub_v1.PublisherClient()
+        project_path = publisher.project_path(project_id)
+
+        return publisher.list_topics(project_path)
+
+    @staticmethod
     def create_topic(project_id, topic_name):
         """
         :param project_id:
