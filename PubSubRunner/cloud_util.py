@@ -237,13 +237,14 @@ class CloudUtil:
         logging.info('create_notification : ok')
 
     @staticmethod
-    def subscribe_message(project_id, subscription__name, callback, max_lease_duration=0):
+    def subscribe_message(project_id, subscription__name, callback, max_lease_duration=0, max_messages=10):
         """
         Receives messages from a pull subscription.
         :param project_id:
         :param subscription__name:
         :param callback:
         :param max_lease_duration: extend deadline as seconds
+        :param max_messages: only have ten(x) outstanding messages at a time.
         """
         logging.info('subscribe')
         subscriber = pubsub_v1.SubscriberClient()
@@ -251,7 +252,7 @@ class CloudUtil:
         # in the form `projects/{project_id}/subscriptions/{subscription_name}`
         subscription_path = subscriber.subscription_path(project_id, subscription__name)
         if max_lease_duration > 0:
-            flow_control = FlowControl(max_lease_duration=max_lease_duration)
+            flow_control = FlowControl(max_messages=max_messages, max_lease_duration=max_lease_duration)
             subscriber.subscribe(subscription_path, callback=callback, flow_control=flow_control)
         else:
             subscriber.subscribe(subscription_path, callback=callback)

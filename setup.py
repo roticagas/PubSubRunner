@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="PubSubRunner",
-    version="1.1.3",
+    version="1.1.4",
     author="Chettha Thawornsathit",
     author_email="roticagas@gmail.com",
     description="Python Boilerplate for Google Cloud PubSub running task in python",
