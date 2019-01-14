@@ -94,7 +94,8 @@ class RunnerApplication:
         CloudUtil.subscribe_message(self.config.cloud_project,
                                     self.config.cloud_pubsub_subscribe_subscription,
                                     self.subscribe_processing,
-                                    self.config.cloud_pubsub_max_lease_duration)
+                                    self.config.cloud_pubsub_max_lease_duration,
+                                    self.config.cloud_pubsub_max_messages)
         if job is not None and callable(job):
             job()
         if internal_server:
