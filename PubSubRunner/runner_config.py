@@ -30,4 +30,4 @@ class RunnerConfig:
         self.cloud_pubsub_check = env[8] in ['True', 'true', 'TRUE']
         self.cloud_pubsub_ack = env[9] in ['True', 'true', 'TRUE']
         self.cloud_pubsub_dead_letter_ack = env[10] in ['True', 'true', 'TRUE']
-        self.cloud_pubsub_max_messages = env[11]
+        self.cloud_pubsub_max_messages = int(env[11])
