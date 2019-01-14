@@ -1,3 +1,4 @@
+google-api-core=1.7.0
 google-cloud-core=0.29.1
 google-cloud-pubsub==0.38.0
 google-cloud-storage==1.13.0
