@@ -8,6 +8,10 @@ from PubSubRunner.cloud_util import CloudUtil
 from PubSubRunner.runner_config import RunnerConfig
 
 
+class RunnerDeadLetterError(BaseException):
+    """Exception for throw to dead letter topic"""
+
+
 class RunnerApplication:
 
     def __init__(self, task):
@@ -69,7 +73,7 @@ class RunnerApplication:
                                        ret)
             if self.config.cloud_pubsub_ack:
                 message.ack()
-        except JSONDecodeError as e:
+        except (JSONDecodeError, RunnerDeadLetterError) as e:
             # NOTE: if payload not in json format: send to dead letter topic
             logging.error(str(e))
             if self.config.cloud_pubsub_dead_letter_topic != '':
